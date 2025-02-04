@@ -1,157 +1,546 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio - Bernat Soldevila</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.0/lux/bootstrap.min.css">
+    <!-- Bootstrap & Bootswatch CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.0/lux/bootstrap.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+      /* Base styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+        /* Pour éviter que le contenu ne soit masqué par la navbar fixe */
+        padding-top: 70px;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
+      p {
+        margin-bottom: 1rem;
+      }
+      a {
+        transition: color 0.3s ease;
+      }
+      a:hover {
+        color: #0056b3;
+        text-decoration: none;
+      }
+      section {
+        padding: 60px 0;
+      }
+
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 1rem;
+      }
+      .navbar .nav-link {
+        margin-right: 1rem;
+      }
+      .navbar .nav-link:hover {
+        color: #f8f9fa !important;
+        text-decoration: underline;
+      }
+
+      /* Header */
+      header {
+        background-color: #e9ecef;
+        text-align: center;
+        padding: 80px 0;
+      }
+      .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1rem;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 0.5rem;
+      }
+
+      /* Timeline (Formations) */
+      .timeline {
+        border-left: 3px solid #727cf5;
+        background: rgba(114, 124, 245, 0.09);
+        margin: 0 auto;
+        padding: 50px;
+        list-style: none;
+        max-width: 60%;
+        position: relative;
+        border-radius: 4px;
+      }
+      @media (max-width: 767px) {
+        .timeline {
+          max-width: 90%;
+          padding: 25px;
         }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
+      }
+      .timeline .event {
+        border-bottom: 1px dashed #e8ebf1;
+        padding-bottom: 25px;
+        margin-bottom: 25px;
+        position: relative;
+      }
+      .timeline .event:last-of-type {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: none;
+      }
+      .timeline .event:before {
+        position: absolute;
+        left: -207px;
+        content: attr(data-date);
+        text-align: right;
+        font-weight: 300;
+        font-size: 0.9em;
+        min-width: 120px;
+        color: #6c757d;
+      }
+      @media (max-width: 767px) {
+        .timeline .event:before {
+          left: 0;
+          text-align: left;
         }
-        .icon {
-            width: 40px;
-            height: 40px;
-            margin-top: 10px;
-            margin-right: 10px;
-        }
-        .competence-card {
-            background: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-        .competence-card:hover {
-            transform: scale(1.05);
-        }
+      }
+      .timeline .event:after {
+        position: absolute;
+        left: -55.8px;
+        background: #fff;
+        border-radius: 50%;
+        height: 9px;
+        width: 9px;
+        content: "";
+        top: 5px;
+        box-shadow: 0 0 0 3px #727cf5;
+      }
+
+      /* Competence Cards */
+      .competence-card {
+        background-color: #fff;
+        padding: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .competence-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Projets Cards */
+      .card {
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Section Outils et Technologies */
+      .tool-logo {
+        max-width: 80px;
+        margin-bottom: 10px;
+      }
+      .outils-grid .col {
+        margin-bottom: 20px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">Bernat Soldevila</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#competences">Compétences</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projets">Projets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="#">Bernat Soldevila</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#about">À propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#competences">Compétences</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#outils">Outils</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#projets">Projets</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="btn btn-light text-dark px-3 ms-2"
+                href="cv_bernat_soldevila.pdf"
+                download="CV_Bernat_Soldevila"
+                >Télécharger CV</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
-    <header class="text-center py-5 bg-light mt-5">
-        <div class="container">
-            <img src="bernat.jpg" alt="Bernat Soldevila" class="profile-img mb-3">
-            <h1 class="display-4">Bernat Soldevila</h1>
-            <p class="lead">Développeur Back-end | Alternant chez <a href="http://www.alphawind.fr">Alphawind</a></p>
-            <a href="https://github.com/BernatSR" target="_blank"><img src="github.png" class="icon" alt="GitHub"></a>
-            <a href="https://www.linkedin.com/in/bernat-soldevila" target="_blank"><img src="linkedin.png" class="icon" alt="LinkedIn"></a>
+    <!-- Header -->
+    <header class="bg-light">
+      <div class="container">
+        <img src="bernat.jpg" alt="Bernat Soldevila" class="profile-img" />
+        <h1 class="display-4">Bernat Soldevila</h1>
+        <p class="lead">
+          Développeur Back-end | Alternant chez
+          <a href="http://www.alphawind.fr">Alphawind</a>
+        </p>
+        <div>
+          <a href="https://github.com/BernatSR" target="_blank">
+            <img src="github.png" class="icon" alt="GitHub" />
+          </a>
+          <a href="https://www.linkedin.com/in/bernat-soldevila" target="_blank">
+            <img src="linkedin.png" class="icon" alt="LinkedIn" />
+          </a>
         </div>
+      </div>
     </header>
 
-    <section id="about" class="container py-5">
+    <!-- À propos -->
+    <section id="about">
+      <div class="container">
         <h2>À propos</h2>
-        <p>Je suis un étudiant en 3ᵉ année de BUT Informatique à Blagnac, spécialisé en développement backend et DevOps. Passionné par la gestion de données et le déploiement cloud, je travaille actuellement en alternance chez Alphawind.</p>
-        <p>J'ai 20 ans et je parle couramment le français, l'espagnol et le catalan. J'ai également un niveau avancé en anglais.</p>
+        <p>
+          Je suis un étudiant en 3ᵉ année de BUT Informatique à Blagnac,
+          spécialisé en développement backend et DevOps. Passionné par la gestion
+          de données et le déploiement cloud, je travaille actuellement en
+          alternance chez Alphawind.
+        </p>
+        <p>
+          J'ai 20 ans et je parle couramment le français, l'espagnol et le catalan.
+          J'ai également un niveau avancé en anglais.
+        </p>
+      </div>
     </section>
 
-    <section id="competences" class="container py-5">
+    <!-- Formations -->
+    <section id="formations">
+      <div class="container">
+        <h2>Formations</h2>
+        <div class="timeline">
+          <div class="event" data-date="2022 - 2025">
+            <h3>IUT Blagnac - Université Toulouse 2</h3>
+            <p>BUT Informatique</p>
+          </div>
+          <div class="event" data-date="2022">
+            <h3>Lycée Comte de Foix - Andorre</h3>
+            <p>
+              Baccalauréat général · Mention Bien<br />
+              Spécialités NSI et SES
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compétences -->
+    <section id="competences">
+      <div class="container">
         <h2>Compétences</h2>
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Développement d’Applications</h5>
-                    <p>Conception et adaptation d’applications fonctionnant sur différentes plateformes comme le web, le mobile ou l’embarqué.</p>
-                </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Développement d’Applications</h5>
+              <p>
+                Conception et adaptation d’applications fonctionnant sur différentes
+                plateformes comme le web, le mobile ou l’embarqué.
+              </p>
+              <p>
+                <strong>Voir projets associés :</strong>
+                <a href="#projet1">Gestion de Temps et Paie</a>,
+                <a href="#projet2">Livraison entre Particuliers</a>
+              </p>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Optimisation des Applications</h5>
-                    <p>Amélioration des performances logicielles en analysant et en optimisant les structures de code et les algorithmes.</p>
-                </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Optimisation des Applications</h5>
+              <p>
+                Amélioration des performances logicielles en analysant et en
+                optimisant les structures de code et les algorithmes.
+              </p>
+              <p>
+                <strong>Voir projets :</strong>
+                <a href="#projets">Tous les projets</a>
+              </p>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Administration des Systèmes</h5>
-                    <p>Mise en place de services informatiques robustes dans des environnements réseau complexes.</p>
-                </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Administration des Systèmes</h5>
+              <p>
+                Mise en place de services informatiques robustes dans des
+                environnements réseau complexes.
+              </p>
+              <p>
+                <strong>Voir projets :</strong>
+                <a href="#projets">Tous les projets</a>
+              </p>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Gestion des Bases de Données</h5>
-                    <p>Gestion et optimisation des bases de données tout en assurant leur sécurité et leur intégration avec des applications.</p>
-                </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Gestion des Bases de Données</h5>
+              <p>
+                Gestion et optimisation des bases de données tout en assurant leur
+                sécurité et leur intégration avec des applications.
+              </p>
+              <p>
+                <strong>Voir projets associés :</strong>
+                <a href="#projet1">Gestion de Temps et Paie</a>,
+                <a href="#projet2">Livraison entre Particuliers</a>
+              </p>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Conduite de Projet</h5>
-                    <p>Organisation des étapes d’un projet informatique, avec un suivi rigoureux pour répondre aux besoins définis.</p>
-                </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Conduite de Projet</h5>
+              <p>
+                Organisation des étapes d’un projet informatique, avec un suivi
+                rigoureux pour répondre aux besoins définis.
+              </p>
+              <p>
+                <strong>Voir projet associé :</strong>
+                <a href="#projet1">Gestion de Temps et Paie</a>
+              </p>
             </div>
-            <div class="col-md-6 mb-3">
-                <div class="competence-card">
-                    <h5>Travail en Équipe</h5>
-                    <p>Capacité à travailler en groupe et à gérer les interactions pour atteindre des objectifs communs efficacement.</p>
-                </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="competence-card">
+              <h5>Travail en Équipe</h5>
+              <p>
+                Capacité à travailler en groupe et à gérer les interactions pour
+                atteindre des objectifs communs efficacement.
+              </p>
+              <p>
+                <strong>Voir projet associé :</strong>
+                <a href="#projet2">Livraison entre Particuliers</a>
+              </p>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section id="projets" class="container py-5">
+    <!-- Outils et Technologies -->
+    <section id="outils">
+      <div class="container">
+        <h2>Outils et Technologies</h2>
+        <div class="row text-center outils-grid">
+          <!-- Groupe 1 : Java, Python, C -->
+          <div class="col-6 col-md-2">
+            <img src="java_logo.png" alt="Java" class="tool-logo img-fluid" />
+            <p>Java</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="python_logo.png" alt="Python" class="tool-logo img-fluid" />
+            <p>Python</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="c_logo.png" alt="C" class="tool-logo img-fluid" />
+            <p>C</p>
+          </div>
+          <!-- Groupe 2 : HTML, CSS, PHP -->
+          <div class="col-6 col-md-2">
+            <img src="html_logo.png" alt="HTML" class="tool-logo img-fluid" />
+            <p>HTML</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="css_logo.png" alt="CSS" class="tool-logo img-fluid" />
+            <p>CSS</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="php_logo.png" alt="PHP" class="tool-logo img-fluid" />
+            <p>PHP</p>
+          </div>
+          <!-- Groupe 3 : Symfony, JavaScript, VueJS -->
+          <div class="col-6 col-md-2">
+            <img src="symfony_logo.png" alt="Symfony" class="tool-logo img-fluid" />
+            <p>Symfony</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="javascript_logo.png" alt="JavaScript" class="tool-logo img-fluid" />
+            <p>JavaScript</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="vuejs_logo.png" alt="Vue.js" class="tool-logo img-fluid" />
+            <p>VueJS</p>
+          </div>
+          <!-- Groupe 4 : Oracle SQL, MySQL -->
+          <div class="col-6 col-md-2">
+            <img src="oracle_sql_logo.png" alt="Oracle SQL" class="tool-logo img-fluid" />
+            <p>Oracle SQL</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="mysql_logo.png" alt="MySQL" class="tool-logo img-fluid" />
+            <p>MySQL</p>
+          </div>
+          <!-- Groupe 5 : Linux -->
+          <div class="col-6 col-md-2">
+            <img src="linux_logo.png" alt="Linux" class="tool-logo img-fluid" />
+            <p>Linux</p>
+          </div>
+          <!-- Groupe 6 : UML, Git -->
+          <div class="col-6 col-md-2">
+            <img src="uml_logo.png" alt="UML" class="tool-logo img-fluid" />
+            <p>UML</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="git_logo.png" alt="Git" class="tool-logo img-fluid" />
+            <p>Git</p>
+          </div>
+          <!-- Groupe 7 : VSCode, Oracle SQL Developer -->
+          <div class="col-6 col-md-2">
+            <img src="vscode_logo.png" alt="VSCode" class="tool-logo img-fluid" />
+            <p>VSCode</p>
+          </div>
+          <div class="col-6 col-md-2">
+            <img src="oracle_sql_developer_logo.png" alt="Oracle SQL Developer" class="tool-logo img-fluid" />
+            <p>Oracle SQL Developer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projets -->
+    <section id="projets">
+      <div class="container">
         <h2>Projets</h2>
         <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="projet1.png" class="card-img-top" alt="Projet 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestion de Temps et Paie</h5>
-                        <p class="card-text">Un projet personnel visant à faciliter la gestion des temps de travail et des paies pour les ouvriers intérimaires.</p>
-                        <p>Le backend est développé en PHP Laravel, et les données sont gérées via MySQL. L’application est déployée sur AWS et utilise Docker pour la conteneurisation.</p>
-                        <p><strong>Compétences :</strong> <a href="#competences">Développement d’Applications</a>, <a href="#competences">Gestion des Bases de Données</a>, <a href="#competences">Conduite de Projet</a>.</p>
-                    </div>
-                </div>
+          <div class="col-md-6 mb-4">
+            <div class="card" id="projet1">
+              <img src="projet1.png" class="card-img-top" alt="Projet 1" />
+              <div class="card-body">
+                <h5 class="card-title">Gestion de Temps et Paie</h5>
+                <p class="card-text">
+                  Un projet personnel visant à faciliter la gestion des temps de
+                  travail et des paies pour les ouvriers intérimaires.
+                </p>
+                <p>
+                  Le backend est développé en PHP Laravel, et les données sont
+                  gérées via MySQL. L’application est déployée sur AWS et utilise
+                  Docker pour la conteneurisation.
+                </p>
+                <p>
+                  <strong>Compétences :</strong>
+                  <a href="#competences">Développement d’Applications</a>,
+                  <a href="#competences">Gestion des Bases de Données</a>,
+                  <a href="#competences">Conduite de Projet</a>.
+                </p>
+              </div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="projet2.png" class="card-img-top" alt="Projet 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Livraison entre Particuliers</h5>
-                        <p>Une application universitaire qui permet aux particuliers de gérer l’envoi et la réception de colis de manière sécurisée.</p>
-                        <p>Le frontend est développé avec Vue.js, tandis que le backend repose sur PHP Laravel. Une base de données MySQL assure le stockage des informations.</p>
-                        <p><strong>Compétences :</strong> <a href="#competences">Développement d’Applications</a>, <a href="#competences">Gestion des Bases de Données</a>, <a href="#competences">Travail en Équipe</a>.</p>
-                    </div>
-                </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="card" id="projet2">
+              <img src="projet2.png" class="card-img-top" alt="Projet 2" />
+              <div class="card-body">
+                <h5 class="card-title">Livraison entre Particuliers</h5>
+                <p class="card-text">
+                  Une application universitaire qui permet aux particuliers de
+                  gérer l’envoi et la réception de colis de manière sécurisée.
+                </p>
+                <p>
+                  Le frontend est développé avec Vue.js, tandis que le backend
+                  repose sur PHP Laravel. Une base de données MySQL assure le
+                  stockage des informations.
+                </p>
+                <p>
+                  <strong>Compétences :</strong>
+                  <a href="#competences">Développement d’Applications</a>,
+                  <a href="#competences">Gestion des Bases de Données</a>,
+                  <a href="#competences">Travail en Équipe</a>.
+                </p>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section id="contact" class="container py-5">
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container">
         <h2>Contact</h2>
         <form>
-            <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" placeholder="Votre email"></div>
-            <div class="mb-3"><label class="form-label">Message</label><textarea class="form-control" rows="4" placeholder="Votre message"></textarea></div>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" placeholder="Votre email" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            <textarea
+              class="form-control"
+              rows="4"
+              placeholder="Votre message"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
+      </div>
     </section>
 
-    <footer class="text-center py-3 bg-dark text-light">
-        <p>© 2025 Bernat Soldevila | <a href="https://github.com/BernatSR" target="_blank"><img src="github.png" class="icon" alt="GitHub"></a> <a href="https://www.linkedin.com/in/bernat-soldevila" target="_blank"><img src="linkedin.png" class="icon" alt="LinkedIn"></a></p>
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>© 2025 Bernat Soldevila</p>
+      </div>
     </footer>
-</body>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
